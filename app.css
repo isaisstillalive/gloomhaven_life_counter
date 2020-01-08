@@ -1,0 +1,133 @@
+.player {
+  width: 6.2%;
+  height: 100%;
+  border: 2px solid black;
+  box-sizing: border-box;
+  float: left;
+}
+
+.monster {
+  width: 11.5%;
+  height: 100%;
+  border: 2px solid black;
+  box-sizing: border-box;
+  float: left;
+}
+
+.elite {
+  background-color: yellow;
+}
+
+.name,
+.initiative,
+.token {
+  border: 1px solid black;
+  box-sizing: border-box;
+  font-size: 8vh;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  /* display: table-cell; */
+  vertical-align: middle;
+}
+
+.name {
+  height: 10%;
+}
+.name img {
+  width: 100%;
+}
+
+.initiative {
+  height: 10%;
+  line-height: 10vh;
+}
+
+.token {
+  height: 8%;
+  border: 1px solid black;
+}
+
+.token .add {
+  width: 50%;
+  position: absolute;
+  left: 0;
+}
+
+.token .add.elite {
+  left: 50%;
+}
+
+.token .remove {
+  font-size: 2vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.token div {
+  line-height: 8.5vh;
+}
+
+.over {
+  color: firebrick;
+}
+
+.under {
+  color: darkcyan;
+}
+
+.empty {
+  background-color: darkgray;
+}
+
+.gauge {
+  background-color: lightcoral;
+  height: 100%;
+  position: absolute;
+}
+
+/* IE11 hide native button (thanks Matt!) */
+select::-ms-expand {
+  display: none;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Add some styling */
+
+  display: block;
+  height: 100px;
+  margin: 5px 0px;
+  padding: 0px 24px;
+  font-size: 32px;
+  line-height: 1.75;
+  color: #333;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  -ms-word-break: normal;
+  word-break: normal;
+}
+
+select.image {
+  width: 100%;
+}
+
+select.life {
+  width: 50%;
+  float: left;
+}
+
+.button {
+  clear: left;
+  text-align: center;
+}
+
+.button button {
+  height: 50px;
+  width: 150px;
+  margin: 5px 0px;
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Gloomhaven Life Counter</title>
+    <link rel="stylesheet" href="html5reset-1.6.1.css" />
+    <link rel="stylesheet" href="app.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-js-modal@1.3.28/dist/index.min.js"></script>
+  </head>
+
+  <body style="user-select: none">
+    <div id="app" style="height: 100vh">
+      <div class="player">
+        <div class="name">
+          <div @click.prevent="addMonster(0)">+</div>
+        </div>
+        <div class="initiative" @click="resetInitiative">
+          速
+        </div>
+        <div class="token" v-for="index in 10">
+          {{ index }}
+        </div>
+      </div>
+      <template v-for="(char, index) in chars">
+        <character
+          :char="char"
+          @set-initiative="setInitiative(char)"
+          @edit="showEdit(index)"
+          @remove="removeEdit(index)"
+        ></character>
+      </template>
+      <modal name="editDialog" v-if="editingIndex !== null">
+        <select v-model="editingCharImages" class="image">
+          <optgroup label="プレイヤー">
+            <option
+              v-for="image in images.player"
+              :value="{ image: image.src, player: true }"
+            >
+              {{ image.name }}
+            </option>
+          </optgroup>
+          <optgroup label="モンスター">
+            <option
+              v-for="image in images.monster"
+              :value="{ image: image.src, player: false }"
+            >
+              {{ image.name }}
+            </option>
+          </optgroup>
+        </select>
+        <template v-if="!editingChar.player">
+          <select v-model="editingChar.life[0]" class="life normal">
+            <option v-for="value in 50" :value="value">{{ value }}</option>
+          </select>
+          <select v-model="editingChar.life[1]" class="life elite">
+            <option v-for="value in 50" :value="value">{{ value }}</option>
+          </select></template
+        >
+        <div class="button">
+          <button @click.prevent="hideEdit">Close</button>
+          <button @click.prevent="removeEdit(editingIndex)">Remove</button>
+        </div>
+      </modal>
+    </div>
+
+    <template id="character">
+      <div :class="{ player: player, monster: !player }">
+        <div
+          class="name"
+          @dblclick.prevent="$emit('edit')"
+          @click.right.prevent="$emit('remove')"
+        >
+          <img :src="image" />
+        </div>
+        <div
+          class="initiative"
+          @click.prevent="$emit('set-initiative')"
+          :class="{ empty: empty }"
+        >
+          {{ initiative }}
+        </div>
+        <template v-if="!player">
+          <div
+            class="token"
+            :class="{ elite: token.type == 1 }"
+            v-for="(token, index) in tokens"
+          >
+            <template v-if="token.type === -1">
+              <div class="add" @click.prevent="add(index, 0)">N</div>
+              <div class="add elite" @click.prevent="add(index, 1)">E</div>
+            </template>
+            <template v-else>
+              <counter
+                :max="life[token.type]"
+                v-model="token.life"
+                :reverse="true"
+              ></counter>
+              <span class="remove" @click.prevent.stop="remove(index)"
+                >[-]</span
+              >
+            </template>
+          </div>
+        </template>
+      </div>
+    </template>
+
+    <template id="counter">
+      <div
+        @click.prevent="click"
+        @click.right.prevent="rclick"
+        class="counter"
+        :class="{ over: (value > max), under: (value < min) }"
+      >
+        <!-- <div
+          class="gauge"
+          :style="{ width: (100-value/max*100)+'%', left: (value/max*100)+'%' }"
+        >
+          &nbsp;
+        </div> -->
+        <span style="z-index: 100;">{{ value }}</span>
+      </div>
+    </template>
+
+    <script type="application/javascript" src="app.js"></script>
+  </body>
+</html>
