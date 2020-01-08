@@ -1,17 +1,22 @@
-.player {
-  width: 6.2%;
+.player,
+.monster,
+.object {
   height: 100%;
   border: 2px solid black;
   box-sizing: border-box;
   float: left;
 }
 
+.player {
+  width: 6.2%;
+}
+
 .monster {
   width: 11.5%;
-  height: 100%;
-  border: 2px solid black;
-  box-sizing: border-box;
-  float: left;
+}
+
+.object {
+  width: 6.2%;
 }
 
 .elite {
@@ -56,6 +61,10 @@
 
 .token .add.elite {
   left: 50%;
+}
+
+.token .add.single {
+  width: 100%;
 }
 
 .token .remove {

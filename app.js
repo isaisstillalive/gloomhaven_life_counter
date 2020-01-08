@@ -11,8 +11,11 @@ Vue.component("character", {
     id() {
       return this.char.id;
     },
+    type() {
+      return this.char.type;
+    },
     player() {
-      return this.char.player;
+      return this.type == "player";
     },
     image() {
       return this.char.image;
@@ -227,7 +230,9 @@ const app = new Vue({
         {
           src: "img/monster/Night-Demon.jpg",
           name: "黒夜の魔神"
-        },
+        }
+      ],
+      object: [
         {
           src: "img/monster/boss.png",
           name: "ボス"
@@ -244,20 +249,20 @@ const app = new Vue({
       get() {
         return {
           image: this.editingChar.image,
-          player: this.editingChar.player
+          type: this.editingChar.type
         };
       },
       set(value) {
         this.editingChar.image = value.image;
-        this.editingChar.player = value.player;
+        this.editingChar.type = value.type;
       }
     }
   },
   methods: {
-    addCharacter(index = 0, player = true) {
+    addCharacter(index = 0, type = "player") {
       this.chars.push({
-        player: player,
-        image: (player ? this.images.player : this.images.monster)[index].src,
+        type: type,
+        image: this.images[type][index].src,
         initiative: 0,
         life: [10, 20],
         tokens: Array(10)
@@ -268,10 +273,10 @@ const app = new Vue({
       });
     },
     addPlayer(index) {
-      this.addCharacter(index, true);
+      this.addCharacter(index, "player");
     },
     addMonster(index) {
-      this.addCharacter(index, false);
+      this.addCharacter(index, "monster");
     },
     removeCharacter(index) {
       this.chars.splice(index, 1);
