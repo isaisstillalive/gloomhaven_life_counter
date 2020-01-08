@@ -229,7 +229,7 @@ const app = new Vue({
           name: "黒夜の魔神"
         },
         {
-          src: "img/monster/BOSS.png",
+          src: "img/monster/boss.png",
           name: "ボス"
         }
       ]
