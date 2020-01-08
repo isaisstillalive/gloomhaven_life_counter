@@ -236,6 +236,10 @@ const app = new Vue({
         {
           src: "img/monster/boss.png",
           name: "ボス"
+        },
+        {
+          src: "img/other/object.png",
+          name: "破壊可能オブジェクト"
         }
       ]
     },
