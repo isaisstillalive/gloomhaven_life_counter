@@ -61,10 +61,18 @@
           </optgroup>
         </select>
         <template v-if="editingChar.type !== 'player'">
-          <select v-model="editingChar.life[0]" class="life normal">
+          <select
+            v-model="editingChar.life[0]"
+            class="life"
+            :class="{ normal: editingChar.type == 'monster' }"
+          >
             <option v-for="value in 50" :value="value">{{ value }}</option>
           </select>
-          <select v-model="editingChar.life[1]" class="life elite">
+          <select
+            v-model="editingChar.life[1]"
+            class="life elite"
+            v-if="editingChar.type == 'monster'"
+          >
             <option v-for="value in 50" :value="value">{{ value }}</option>
           </select></template
         >

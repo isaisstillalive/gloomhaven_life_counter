@@ -126,8 +126,13 @@ select.image {
 }
 
 select.life {
-  width: 50%;
+  width: 100%;
   float: left;
+}
+
+select.life.normal,
+select.life.elite {
+  width: 50%;
 }
 
 .button {
