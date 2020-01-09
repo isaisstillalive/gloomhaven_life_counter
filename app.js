@@ -371,8 +371,8 @@ const app = new Vue({
   },
   async created() {
     this.db = new DB("gloomhaven_life_counter", "character");
-    await this.db.connect(1, db => {
-      db.createObjectStore(this.table, {
+    await this.db.connect(2, db => {
+      db.createObjectStore(this.db.table, {
         keyPath: "src",
         autoIncrement: false
       });
