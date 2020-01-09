@@ -1,5 +1,48 @@
 "use strict";
 
+class DB {
+  constructor(dbname, table) {
+    this.dbname = dbname;
+    this.table = table;
+  }
+
+  async connect(version, scheme) {
+    const dbp = new Promise((resolve, reject) => {
+      const req = window.indexedDB.open(this.dbname, version);
+      req.onsuccess = event => {
+        this.db = event.target.result;
+        resolve(this.db);
+      };
+      req.onerror = event => reject("fails to open db");
+      req.onupgradeneeded = event => scheme(event.target.result);
+    });
+    dbp.then(
+      d => (d.onerror = event => alert("error: " + event.target.errorCode))
+    );
+    return dbp;
+  }
+
+  async put(data) {
+    return new Promise((resolve, reject) => {
+      const docs = this.db
+        .transaction(this.table, "readwrite")
+        .objectStore(this.table);
+      const req = docs.put(data);
+      req.onsuccess = () => resolve({ id: req.result, ...data });
+      req.onerror = reject;
+    });
+  }
+
+  async get(id) {
+    return new Promise((resolve, reject) => {
+      const docs = this.db.transaction(this.table).objectStore(this.table);
+      const req = docs.get(id);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = reject;
+    });
+  }
+}
+
 Vue.use(window["vue-js-modal"].default);
 
 Vue.component("character", {
@@ -263,22 +306,25 @@ const app = new Vue({
       get() {
         return {
           image: this.editingChar.image,
-          type: this.editingChar.type
+          type: this.editingChar.type,
+          life: this.editingChar.life
         };
       },
       set(value) {
         this.editingChar.image = value.image;
         this.editingChar.type = value.type;
+        this.editingChar.life = value.life;
       }
     }
   },
   methods: {
     addCharacter(index = 0, type = "player") {
+      const character = this.images[type][index];
       this.chars.push({
         type: type,
-        image: this.images[type][index].src,
+        image: character.src,
         initiative: 0,
-        life: [10, 20],
+        life: character.life,
         tokens: Array(10)
           .fill(0)
           .map(() => {
@@ -312,6 +358,10 @@ const app = new Vue({
     },
     hideEdit() {
       this.$modal.hide("editDialog");
+      this.db.put({
+        src: this.editingChar.image,
+        life: this.editingChar.life
+      });
     },
     removeEdit(index) {
       this.editingIndex = null;
@@ -319,8 +369,23 @@ const app = new Vue({
       this.hideEdit();
     }
   },
-  mounted() {
-    this.addPlayer(3);
-    this.addPlayer(4);
+  async created() {
+    this.db = new DB("gloomhaven_life_counter", "character");
+    await this.db.connect(1, db => {
+      db.createObjectStore(this.table, {
+        keyPath: "src",
+        autoIncrement: false
+      });
+    });
+    for (const type in this.images) {
+      for (const character of this.images[type]) {
+        const data = await this.db.get(character.src);
+        character.life = data === undefined ? [10, 20] : data.life;
+      }
+    }
+  },
+  async mounted() {
+    await this.addPlayer(3);
+    await this.addPlayer(4);
   }
 });

@@ -38,7 +38,7 @@
           <optgroup label="プレイヤー">
             <option
               v-for="image in images.player"
-              :value="{ image: image.src, type: 'player' }"
+              :value="{ image: image.src, life: image.life, type: 'player' }"
             >
               {{ image.name }}
             </option>
@@ -46,7 +46,7 @@
           <optgroup label="モンスター">
             <option
               v-for="image in images.monster"
-              :value="{ image: image.src, type: 'monster' }"
+              :value="{ image: image.src, life: image.life, type: 'monster' }"
             >
               {{ image.name }}
             </option>
@@ -54,7 +54,7 @@
           <optgroup label="オブジェクト">
             <option
               v-for="image in images.object"
-              :value="{ image: image.src, type: 'object' }"
+              :value="{ image: image.src, life: image.life, type: 'object' }"
             >
               {{ image.name }}
             </option>
