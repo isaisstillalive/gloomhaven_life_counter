@@ -121,17 +121,31 @@ select {
   word-break: normal;
 }
 
+.select {
+  border: 1px solid black;
+  box-sizing: border-box;
+  font-size: 8vh;
+  text-align: center;
+}
+
+.select div {
+  line-height: 8.5vh;
+}
+
 select.image {
   width: 100%;
 }
 
-select.life {
+select.life,
+.select.life {
   width: 100%;
   float: left;
 }
 
 select.life.normal,
-select.life.elite {
+select.life.elite,
+.select.life.normal,
+.select.life.elite {
   width: 50%;
 }
 

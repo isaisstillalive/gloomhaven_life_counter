@@ -61,21 +61,21 @@
           </optgroup>
         </select>
         <template v-if="editingChar.type !== 'player'">
-          <select
+          <counter
             v-model="editingChar.life[0]"
-            class="life"
+            class="select life"
+            :overflow="false"
+            :reverse="true"
             :class="{ normal: editingChar.type == 'monster' }"
-          >
-            <option v-for="value in 50" :value="value">{{ value }}</option>
-          </select>
-          <select
+          ></counter>
+          <counter
             v-model="editingChar.life[1]"
-            class="life elite"
+            class="select life elite"
+            :overflow="false"
+            :reverse="true"
             v-if="editingChar.type == 'monster'"
-          >
-            <option v-for="value in 50" :value="value">{{ value }}</option>
-          </select></template
-        >
+          ></counter>
+        </template>
         <div class="button">
           <button @click.prevent="hideEdit">Close</button>
           <button @click.prevent="removeEdit(editingIndex)">Remove</button>
@@ -131,8 +131,10 @@
 
     <template id="counter">
       <div
-        @click.prevent="click"
-        @click.right.prevent="rclick"
+        @click.exact.prevent="click(1)"
+        @click.right.exact.prevent="rclick(1)"
+        @click.shift.prevent="click(10)"
+        @click.right.shift.prevent="rclick(10)"
         class="counter"
         :class="{ over: (value > max), under: (value < min) }"
       >

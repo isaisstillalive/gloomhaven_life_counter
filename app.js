@@ -62,22 +62,32 @@ Vue.component("counter", {
     reverse: {
       type: Boolean,
       default: false
+    },
+    overflow: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
-    click() {
-      if (this.reverse) this.decrease();
-      else this.increase();
+    click(step = 1) {
+      if (this.reverse) this.decrease(step);
+      else this.increase(step);
     },
-    rclick() {
-      if (this.reverse) this.increase();
-      else this.decrease();
+    rclick(step = 1) {
+      if (this.reverse) this.increase(step);
+      else this.decrease(step);
     },
-    decrease() {
-      this.$emit("input", Math.max(-999, this.value - 1));
+    decrease(step = 1) {
+      this.$emit(
+        "input",
+        Math.max(this.overflow ? -999 : this.min, this.value - step)
+      );
     },
-    increase() {
-      this.$emit("input", Math.min(999, this.value + 1));
+    increase(step = 1) {
+      this.$emit(
+        "input",
+        Math.min(this.overflow ? 999 : this.max, this.value + step)
+      );
     }
   }
 });
