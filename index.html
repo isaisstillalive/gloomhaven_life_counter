@@ -119,6 +119,7 @@
                 :max="life[token.type]"
                 v-model="token.life"
                 :reverse="true"
+                :overflow="true"
               ></counter>
               <span class="remove" @click.prevent.stop="remove(index)"
                 >[-]</span
