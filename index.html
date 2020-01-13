@@ -28,7 +28,8 @@
       <template v-for="(char, index) in chars">
         <character
           :char="char"
-          @set-initiative="setInitiative(char)"
+          @increment-initiative="incrementInitiative(char)"
+          @decrement-initiative="decrementInitiative(char)"
           @edit="showEdit(index)"
           @remove="removeEdit(index)"
         ></character>
@@ -94,7 +95,8 @@
         </div>
         <div
           class="initiative"
-          @click.prevent="$emit('set-initiative')"
+          @click.prevent="$emit('increment-initiative')"
+          @click.right.prevent="$emit('decrement-initiative')"
           :class="{ empty: empty }"
         >
           {{ initiative }}

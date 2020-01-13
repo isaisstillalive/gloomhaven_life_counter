@@ -341,10 +341,33 @@ const app = new Vue({
     removeCharacter(index) {
       this.chars.splice(index, 1);
     },
-    setInitiative(char) {
+    incrementInitiative(char) {
       if (char.initiative == 0) {
         char.initiative = this.initiative++;
+      } else if (char.initiative < this.initiative - 1) {
+        this.changeInitiative(char, 1);
       }
+    },
+    decrementInitiative(char) {
+      if (char.initiative == 0) {
+        // char.initiative = this.initiative++;
+        // this.changeInitiative(char, -1);
+        return;
+      } else if (char.initiative == 1) {
+        this.initiative--;
+        this.chars.forEach(otherChar => {
+          if (otherChar.initiative > 0) otherChar.initiative--;
+        });
+      } else {
+        this.changeInitiative(char, -1);
+      }
+    },
+    changeInitiative(char, index) {
+      const otherChar = this.chars.find(
+        c => c.initiative == char.initiative + index
+      );
+      otherChar.initiative = otherChar.initiative - index;
+      char.initiative = char.initiative + index;
     },
     resetInitiative() {
       this.initiative = 1;
