@@ -250,6 +250,10 @@ const app = new Vue({
           name: "恐狼"
         },
         {
+          src: "img/monster/Cave-Bear.jpg",
+          name: "洞熊"
+        },
+        {
           src: "img/monster/Stone-Golem.jpg",
           name: "石のゴーレム"
         },
@@ -264,6 +268,10 @@ const app = new Vue({
         {
           src: "img/monster/Spitting-Drake.jpg",
           name: "八つ裂きドレーク"
+        },
+        {
+          src: "img/monster/Forest-Sprite.jpg",
+          name: "森インプ"
         },
         {
           src: "img/monster/Black-Imp.jpg",
