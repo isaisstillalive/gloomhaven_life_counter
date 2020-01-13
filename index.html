@@ -16,7 +16,12 @@
     <div id="app" style="height: 100vh">
       <div class="player">
         <div class="name">
-          <div @click.prevent="addMonster(0)">+</div>
+          <div
+            @click.shift.prevent="addMonster(0)"
+            @click.exact.prevent="switchDamageView"
+          >
+            +
+          </div>
         </div>
         <div class="initiative" @click="resetInitiative">
           速
@@ -32,6 +37,7 @@
           @decrement-initiative="decrementInitiative(char)"
           @edit="showEdit(index)"
           @remove="removeEdit(index)"
+          :damage-view="damageView"
         ></character>
       </template>
       <modal name="editDialog" v-if="editingIndex !== null">
@@ -89,6 +95,7 @@
         <div
           class="name"
           @dblclick.prevent="$emit('edit')"
+          @click.prevent="switchDamageView"
           @click.right.prevent="$emit('remove')"
         >
           <img :src="image" />
@@ -122,6 +129,7 @@
                 v-model="token.life"
                 :reverse="true"
                 :overflow="true"
+                :damage-view="damageView"
               ></counter>
               <span class="remove" @click.prevent.stop="remove(index)"
                 >[-]</span
@@ -147,7 +155,10 @@
         >
           &nbsp;
         </div> -->
-        <span style="z-index: 100;">{{ value }}</span>
+        <span style="z-index: 100;">
+          <template v-if="damageView">{{ max - value }}d</template>
+          <template v-else>{{ value }}</template>
+        </span>
       </div>
     </template>
 

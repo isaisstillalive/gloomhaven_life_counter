@@ -48,7 +48,11 @@ Vue.use(window["vue-js-modal"].default);
 Vue.component("character", {
   template: "#character",
   props: {
-    char: Object
+    char: Object,
+    damageView: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     id() {
@@ -109,6 +113,10 @@ Vue.component("counter", {
     overflow: {
       type: Boolean,
       default: false
+    },
+    damageView: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -140,6 +148,7 @@ const app = new Vue({
   data: {
     initiative: 1,
     editingIndex: null,
+    damageView: false,
     images: {
       player: [
         {
@@ -390,6 +399,9 @@ const app = new Vue({
       this.editingIndex = null;
       this.removeCharacter(index);
       this.hideEdit();
+    },
+    switchDamageView() {
+      this.damageView = !this.damageView;
     }
   },
   async created() {
