@@ -300,6 +300,18 @@ const app = new Vue({
         {
           src: "img/monster/Night-Demon.jpg",
           name: "黒夜の魔神"
+        },
+        {
+          src: "img/monster/Lurker.jpg",
+          name: "潜むもの"
+        },
+        {
+          src: "img/monster/Deep-Terror.jpg",
+          name: "深淵の怪魔"
+        },
+        {
+          src: "img/monster/The-Bertayer.jpg",
+          name: "ハロワ―寄生体"
         }
       ],
       object: [
